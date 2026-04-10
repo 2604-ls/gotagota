@@ -1,92 +1,198 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-/* Editemos todo  "*" -> Selector Universal*/
-*{
-    margin:0;
+
+* {
+    margin: 0;
     padding: 0;
-    box-sizing:border-box;
-}
-/* VARIABLES GLOBALES EN CSS*/
-:root{
-    --bg: #f5f5f5;              /* backbround o fondo de la pagina */
-    --text: #1a1a1a;            /* #1a1a1a; color del texto principal */
-    --sidebar-w: 220px;            /*Ancho del menú (sidebar) izquierda */
-    --sidebar-icons: 64px;         /* solo se muestra en la tablet el icono */
-    --sidebar-bg:#FFFFFF;       /*Color del fondod el sidebar*/
-    --siderbar-line: rgba(0, 0, 0, 0.15);
-    --muted: #999;              /* Texto-Secundario */
+    box-sizing: border-box;
 }
 
-body{
-    font-family: 'Poppins', sans-serif; /*SI No funciona POPPINS - Defente SansSerif*/
-    background-color: var(--bg); /*Color de fondo*/
-    color: var(--text) /* color del texto */
+:root {
+    --bg: #f5f5f5;
+    --text: #1a1a1a;
+    --sidebar-w: 220px;
+    --sidebar-bg: #ffffff;
+    --sidebar-line: rgba(0, 0, 0, 0.1);
+    --muted: #999;
+    --accent: #4f46e5;
+    --topbar-h: 56px;
+    --danger: #e74c3c;
 }
-/* EMPEZAMOS A EDITAR EL SIDEBAR */
-.topbar{
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+/* ─── TOPBAR (móvil) ─────────────────────────────── */
+.topbar {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Separacion de esquina a esquina*/
+    justify-content: space-between;
     padding: 0 20px;
-    height: 56px;
+    height: var(--topbar-h);
     background-color: var(--sidebar-bg);
-    border-bottom: 1px solid var(--siderbar-line);
-    position: fixed; /* que queda fijo en un lugar, no permite scrolear */
+    border-bottom: 1px solid var(--sidebar-line);
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 200;
 }
-.topbar .title-business{
-    font-size: 1rem; /*16px*/
-    font-weight: 600;
-    color: var(--text)
-}
 
-.hamburger{
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem; /* 19.2px */
+.topbar .title-business {
+    font-size: 1rem;
+    font-weight: 600;
     color: var(--text);
 }
 
-/* FUNCIONADA CON JAVASCRIPT EL OVERLAY */
-.overlay{
+.hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text);
+    padding: 6px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.hamburger:hover {
+    background-color: var(--bg);
+}
+
+/* ─── OVERLAY ────────────────────────────────────── */
+.overlay {
     display: none;
     position: fixed;
-    inset: 0; /* top,buttom,right,left*/
-    background-color: rgba(0, 0, 0, 0.3);
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.35);
     z-index: 150;
 }
-/* Esto funcionara a la hora de programar en JS*/
-.overlay.show{
+
+.overlay.show {
     display: block;
 }
-/*SIDE-BAR - VENTANA IZQUIERDA*/
-.sidebar{
+
+/* ─── SIDEBAR ────────────────────────────────────── */
+.sidebar {
     position: fixed;
     top: 0;
     left: -100%;
-    width: var(--sidebar-w); /* ancho 220px*/
+    width: var(--sidebar-w);
     height: 100vh;
     background-color: var(--sidebar-bg);
-    border-right: 1px solid var(--siderbar-line);
+    border-right: 1px solid var(--sidebar-line);
     display: flex;
     flex-direction: column;
     z-index: 160;
-    transition: left 0.25s ease; /*ANIMACION*/
+    transition: left 0.25s ease;
     padding: 24px 0;
 }
 
-/* esto se va activar con javascript */
-.sidebar.open{
+.sidebar.open {
     left: 0;
 }
 
-.sidebar-logo{
-    padding: 0 20px 24px;
-    font-size: 1rem; /*16px*/
+.sidebar-logo {
+    padding: 0 20px 20px;
+    font-size: 1.05rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--sidebar-line);
+    margin-bottom: 12px;
+    color: var(--text);
+    letter-spacing: 0.5px;
+        text-align: center;
+}
+
+/* ─── NAV LINKS ──────────────────────────────────── */
+.sidebar ul {
+    list-style: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 10px;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar ul li a i {
+    font-size: 1rem;
+    width: 18px;
+    text-align: center;
+}
+
+.sidebar ul li a:hover {
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+.sidebar ul li a.activo {
+    background-color: #eeeeee;
+    color: var(--text);
     font-weight: 600;
-    border-bottom: 1px solid var(--siderbar-line);
+}
+
+/* logout al fondo */
+.nav-logout {
+    margin-top: auto;
+}
+
+.nav-logout a {
+    color: var(--danger) !important;
+}
+
+.nav-logout a:hover {
+    background-color: #fde8e8 !important;
+    color: var(--danger) !important;
+}
+
+/* ─── MAIN ───────────────────────────────────────── */
+main {
+    margin-top: var(--topbar-h);
+    padding: 28px 24px;
+    min-height: 100vh;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+}
+
+.breadcrumb i {
+    font-size: 0.65rem;
+}
+
+.main-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--sidebar-line);
+}
+
+.main-content p {
+    font-weight: 600;
+    font-size: 0.95rem;
     margin-bottom: 16px;
+}
+
+
+#breadcrumb-page {
+    color: var(--text);
 }

@@ -7,52 +7,67 @@
     <title>Dashboard - Panel de Administración</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body>
-<!-- SIDEBAR MOBILE-CELULAR -->
+
+<!-- TOPBAR (solo visible en móvil) -->
 <div class="topbar">
     <div class="title-business">
         <span>JUANITO SAC</span>
     </div>
     <div class="btn-menu">
-        <button class="hamburger">
+        <button class="hamburger" aria-label="Abrir menú">
             <i class="fa-solid fa-bars"></i>
         </button>
     </div>
 </div>
-<!-- OVERLAY JUNTO CON EL NAVBAR-->
+
+<!-- OVERLAY -->
 <div class="overlay"></div>
-<!-- SIBERBAR DESKTOP: es el menu / la barra lateral IZQ...-->
+
+<!-- SIDEBAR -->
 <aside class="sidebar">
     <div class="sidebar-logo">Dashboard</div>
     <ul>
         <li>
-            <a href="#" class="activo" id="activo">
+            <a href="#" class="activo" data-page="home">
                 <i class="fa-solid fa-house"></i>
                 <span>Inicio</span>
             </a>
         </li>
         <li>
-            <a href="#">
-                <i class="fa-solid fa-folder-open"></i>
+            <a href="#" data-page="reportes">
+                <i class="fa-solid fa-clipboard-list"></i>
                 <span>Reportes</span>
+            </a>
+        </li>
+        <li class="nav-logout">
+            <a href="#" id="btn-logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Cerrar sesión</span>
             </a>
         </li>
     </ul>
 </aside>
-<!-- CONTENIDO PRINCIAL (ctrl+})-->
+
+<!-- CONTENIDO PRINCIPAL -->
 <main>
-    <!-- navigation -->
     <nav class="breadcrumb">
         <span>Inicio</span>
         <i class="fa-solid fa-chevron-right"></i>
-        <span>Reportes</span>
+        <span id="breadcrumb-page">Clientes</span>
     </nav>
     <div class="main-content">
-        <p>AQUI VAMOS A ESCRIBIR EL CONTENIDO</p>
+        <div class="table-responsive">
+        </div>
     </div>
 </main>
+
+<script src="js/main.js"></script>
+<script src="js/sidebar.js"></script>
+
 </body>
 
 </html>
