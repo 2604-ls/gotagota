@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         <i class="fas fa-edit"></i> Editar
                                     </button>
 
-                                    <button class="btn btn-outline-danger btn-sm">
+                                    <button id="btnEliminar" class="btn btn-outline-danger btn-sm">
                                         <i class="fas fa-trash"></i> Eliminar
                                     </button>
                                 </td>
@@ -34,3 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
 });
+
+//EVENTO DE CLICK JAVASCRIP
+//Creamos una variable que alcance el DOM de ese elemento de boton
+const btnDelete = document.getElementById("btnEliminar")
+btnDelete.addEventListener("click", function(){
+    alert("Eliminado...")
+})
