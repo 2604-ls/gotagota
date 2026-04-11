@@ -1,0 +1,56 @@
+CREATE DATABASE IF NOT EXISTS gota_a_gota;
+USE gota_a_gota;
+
+CREATE TABLE cobrador (
+    cobrador_id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    telefono VARCHAR(15),
+    email VARCHAR(100)
+);
+
+CREATE TABLE cliente (
+    cliente_id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    dni VARCHAR(8) NOT NULL UNIQUE,
+    telefono VARCHAR(15),
+    direccion VARCHAR(255)
+);
+
+CREATE TABLE prestamo (
+    prestamo_id INT AUTO_INCREMENT PRIMARY KEY,
+    cobrador_id INT NOT NULL,
+    cliente_id INT NOT NULL,
+    monto_total DECIMAL(10,2) NOT NULL,
+    monto_cuota DECIMAL(10,2) NOT NULL,
+    num_cuotas INT NOT NULL,
+    fecha_inicio DATE NOT NULL,
+    estado ENUM('activo', 'pagado') DEFAULT 'activo',
+    FOREIGN KEY (cobrador_id) REFERENCES cobrador(cobrador_id),
+    FOREIGN KEY (cliente_id) REFERENCES cliente(cliente_id)
+);
+
+CREATE TABLE cobro (
+    cobro_id INT AUTO_INCREMENT PRIMARY KEY,
+    prestamo_id INT NOT NULL,
+    fecha_cobro DATE NOT NULL,
+    monto_cobrado DECIMAL(10,2) NOT NULL,
+    estado ENUM('pagado', 'pendiente') DEFAULT 'pendiente',
+    FOREIGN KEY (prestamo_id) REFERENCES prestamo(prestamo_id)
+);
+
+INSERT INTO cliente (nombre, apellido, dni, telefono, direccion) VALUES
+('Juan', 'Perez', '12345678', '961234567', 'Jr. Inmaculada 123, Pucallpa'),
+('Maria', 'Garcia', '23456789', '962345678', 'Av. Centenario 456, Pucallpa'),
+('Carlos', 'Lopez', '34567890', '963456789', 'Jr. Ucayali 789, Pucallpa'),
+('Rosa', 'Martinez', '45678901', '964567890', 'Av. Tupac Amaru 321, Pucallpa'),
+('Pedro', 'Sanchez', '56789012', '965678901', 'Jr. 7 de Junio 654, Pucallpa'),
+('Ana', 'Torres', '67890123', '966789012', 'Av. Yarinacocha 987, Pucallpa'),
+('Luis', 'Flores', '78901234', '967890123', 'Jr. Progreso 147, Pucallpa'),
+('Carmen', 'Ramirez', '89012345', '968901234', 'Av. Sáenz Peña 258, Pucallpa'),
+('Jorge', 'Diaz', '90123456', '969012345', 'Jr. Coronel Portillo 369, Pucallpa'),
+('Sandra', 'Vega', '01234567', '960123456', 'Av. Nueva Requena 741, Pucallpa');
+
+select * from cliente;
+   
