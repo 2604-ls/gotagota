@@ -2,10 +2,8 @@ package com.senati.demo.controller;
 
 import com.senati.demo.entity.Cliente;
 import com.senati.demo.service.ClienteService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,4 +26,12 @@ public class ClienteController {
     //GET /api/clientes -> devuelve todos los clientes en formato JSON
     @GetMapping
     public List<Cliente> listar() {return clienteService.ListarTodos();}
+
+    //DELETE/api/cliente/{id} -> elimina un cliente pur su ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id){
+        clienteService.eliminarCliente(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
