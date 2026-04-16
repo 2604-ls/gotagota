@@ -28,7 +28,7 @@ public class ClienteController {
     public List<Cliente> listar() {return clienteService.ListarTodos();}
 
     @PostMapping
-    public ResponseEntity<Cliente> crear(@ResponseBody Cliente){
+    public ResponseEntity<Cliente> crear(@RequestBody Cliente cliente){
         return  ResponseEntity.ok(clienteService.crearCliente(cliente));
     }
 
