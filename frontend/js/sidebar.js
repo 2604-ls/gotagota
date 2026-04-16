@@ -18,24 +18,24 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.addEventListener("click", closeSidebar);
 
     // Nav links: marcar activo y cerrar sidebar 
-   /* const navLinks = document.querySelectorAll(".sidebar ul li a[data-page]");
-
-    navLinks.forEach(link => {
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-            navLinks.forEach(l => l.classList.remove("activo"));
-            link.classList.add("activo");
-            closeSidebar();
-        });
-    });*/
+    /* const navLinks = document.querySelectorAll(".sidebar ul li a[data-page]");
+ 
+     navLinks.forEach(link => {
+         link.addEventListener("click", (e) => {
+             e.preventDefault();
+             navLinks.forEach(l => l.classList.remove("activo"));
+             link.classList.add("activo");
+             closeSidebar();
+         });
+     });*/
 
     //  Cerrar sesión 
-   /* document.getElementById("btn-logout").addEventListener("click", (e) => {
-        e.preventDefault();
-        if (confirm("¿Seguro que deseas cerrar sesión?")) {
-            // Aquí va la lógica de logout (redirect, limpiar token, etc.)
-            alert("Sesión cerrada");
-        }
-    });*/
+    /* document.getElementById("btn-logout").addEventListener("click", (e) => {
+         e.preventDefault();
+         if (confirm("¿Seguro que deseas cerrar sesión?")) {
+             // Aquí va la lógica de logout (redirect, limpiar token, etc.)
+             alert("Sesión cerrada");
+         }
+     });*/
 
 });
