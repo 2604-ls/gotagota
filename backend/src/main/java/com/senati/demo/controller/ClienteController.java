@@ -39,4 +39,21 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> obtenerPorId(@PathVariable Long id) {
+
+        return clienteService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Cliente> actualizar(
+            @PathVariable Long id,
+            @RequestBody Cliente cliente) {
+
+        Cliente actualizado = clienteService.actualizarCliente(id, cliente);
+        return ResponseEntity.ok(actualizado);
+    }
+
 }

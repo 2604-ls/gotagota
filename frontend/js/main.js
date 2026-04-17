@@ -1,35 +1,41 @@
 // =============================
 // VARIABLES GLOBALES
 // =============================
-let modoEdicion = false;
-let idClienteEditar = null;
+let modoEdicion = false; // controla si estamos editando
+let idClienteEditar = null; // guarda el ID del cliente a editar
 
 
 // =============================
-// EVENTO AL CARGAR
+// PREPARAR NUEVO CLIENTE
 // =============================
-document.addEventListener("DOMContentLoaded", () => {
-    cargarClientes();
+function prepararNuevo() {
 
-    const btnGuardar = document.getElementById("btn-crearCliente");
-    btnGuardar.addEventListener("click", guardarCliente);
-});
+    limpiarFormulario();
+
+    modoEdicion = false;
+    idClienteEditar = null;
+
+    // cambia UI
+    document.getElementById("tituloModal").textContent = "Registrar Cliente";
+    document.getElementById("btn-crearCliente").textContent = "Guardar";
+}
 
 
 // =============================
-// CARGAR CLIENTES
+// CARGAR CLIENTES EN TABLA
 // =============================
 function cargarClientes() {
+
     fetch('http://localhost:8080/api/clientes')
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-            const elemento = document.getElementById("tabla-cliente");
-            elemento.innerHTML = "";
 
-            for (let i = 0; i < data.length; i++) {
-                let cliente = data[i];
+            const tabla = document.getElementById("tabla-cliente");
+            tabla.innerHTML = "";
 
-                let fila = `
+            data.forEach(cliente => {
+
+                tabla.innerHTML += `
                     <tr>
                         <td>${cliente.id}</td>
                         <td>${cliente.nombre}</td>
@@ -38,100 +44,117 @@ function cargarClientes() {
                         <td>${cliente.telefono}</td>
                         <td>${cliente.direccion}</td>
                         <td>
-                            <button data-id="${cliente.id}" class="btn btn-outline-primary btn-sm me-2 btnEditar">
-                                Editar
-                            </button> 
+                            <button class="btn btn-outline-primary btn-sm btnEditar"
+                                data-id="${cliente.id}">
+                                <i class="fa-solid fa-pen-to-square"></i>Editar
+                            </button>
 
-                            <button data-idcliente="${cliente.id}" class="btn btn-outline-danger btn-sm btnEliminar">
-                                Eliminar
+                            <button class="btn btn-outline-danger btn-sm btnEliminar"
+                                data-id="${cliente.id}">
+                                <i class="fa-solid fa-trash"></i>Eliminar
                             </button>
                         </td>
                     </tr>
                 `;
-                elemento.innerHTML += fila;
-            }
+            });
         });
 }
 
 
 // =============================
-// ELIMINAR
+// EVENTO GLOBAL (EDITAR / ELIMINAR)
 // =============================
-document.addEventListener("click", function (e) {
-    const btnDelete = e.target.closest(".btnEliminar");
+document.addEventListener("DOMContentLoaded", () => {
 
-    if (btnDelete) {
-        const id = btnDelete.dataset.idcliente;
+    cargarClientes();
 
-        if (confirm("¿Seguro que deseas eliminar este cliente?")) {
-            fetch(`http://localhost:8080/api/clientes/${id}`, {
-                method: 'DELETE'
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Cliente eliminado correctamente');
-                        cargarClientes(); // 🔥 sin reload
-                    } else {
-                        alert('Error al eliminar el cliente');
-                    }
+    document.getElementById("btn-crearCliente")
+        .addEventListener("click", guardarCliente);
+
+    document.getElementById("btnNuevo")
+        .addEventListener("click", () => {
+            limpiarFormulario();
+            modoEdicion = false;
+            idClienteEditar = null;
+
+            document.getElementById("tituloModal").textContent = "Registrar Cliente";
+            document.getElementById("btn-crearCliente").textContent = "Guardar";
+
+            const modal = bootstrap.Modal.getOrCreateInstance(
+                document.getElementById("modalRegistroCliente")
+            );
+
+            modal.show();
+        });
+
+    // EVENTO GLOBAL AQUÍ (IMPORTANTE)
+    document.addEventListener("click", (e) => {
+
+        const btnEditar = e.target.closest(".btnEditar");
+
+        if (btnEditar) {
+
+            const id = btnEditar.dataset.id;
+
+            fetch(`http://localhost:8080/api/clientes/${id}`)
+                .then(res => res.json())
+                .then(cliente => {
+
+                    document.getElementById("c_nombre").value = cliente.nombre;
+                    document.getElementById("c_apellido").value = cliente.apellido;
+                    document.getElementById("c_dni").value = cliente.dni;
+                    document.getElementById("c_telefono").value = cliente.telefono;
+                    document.getElementById("c_direccion").value = cliente.direccion;
+
+                    modoEdicion = true;
+                    idClienteEditar = id;
+
+                    document.getElementById("tituloModal").textContent = "Editar Cliente";
+                    document.getElementById("btn-crearCliente").textContent = "Actualizar";
+
+                    const modal = bootstrap.Modal.getOrCreateInstance(
+                        document.getElementById("modalRegistroCliente")
+                    );
+
+                    modal.show();
                 });
         }
-    }
+
+        const btnEliminar = e.target.closest(".btnEliminar");
+
+        if (btnEliminar) {
+
+            const id = btnEliminar.dataset.id;
+
+            if (confirm("¿Eliminar cliente?")) {
+
+                fetch(`http://localhost:8080/api/clientes/${id}`, {
+                    method: "DELETE"
+                }).then(res => {
+                    if (res.ok) cargarClientes();
+                });
+            }
+        }
+    });
 });
 
-
 // =============================
-// EDITAR (NUEVO)
-// =============================
-document.addEventListener("click", function (e) {
-    const btnEditar = e.target.closest(".btnEditar");
-
-    if (btnEditar) {
-        const id = btnEditar.dataset.id;
-
-        fetch(`http://localhost:8080/api/clientes/${id}`)
-            .then(res => res.json())
-            .then(cliente => {
-
-                document.getElementById("c_nombre").value = cliente.nombre;
-                document.getElementById("c_apellido").value = cliente.apellido;
-                document.getElementById("c_dni").value = cliente.dni;
-                document.getElementById("c_telefono").value = cliente.telefono;
-                document.getElementById("c_direccion").value = cliente.direccion;
-
-                modoEdicion = true;
-                idClienteEditar = id;
-
-                document.getElementById("tituloModal").textContent = "Editar Cliente";
-
-                const modal = new bootstrap.Modal(document.getElementById('modalRegistroCliente'));
-                modal.show();
-            });
-    }
-});
-
-
-// =============================
-// GUARDAR / ACTUALIZAR
+// GUARDAR / ACTUALIZAR CLIENTE
 // =============================
 function guardarCliente() {
-    const nombre = document.getElementById("c_nombre").value.trim();
-    const apellido = document.getElementById("c_apellido").value.trim();
-    const dni = document.getElementById("c_dni").value.trim();
-    const telefono = document.getElementById("c_telefono").value.trim();
-    const direccion = document.getElementById("c_direccion").value.trim();
 
-    if (!nombre || !apellido || !dni) {
-        alert("Completa los campos obligatorios");
-        return;
-    }
-
-    const cliente = { nombre, apellido, dni, telefono, direccion };
+    const cliente = {
+        nombre: document.getElementById("c_nombre").value,
+        apellido: document.getElementById("c_apellido").value,
+        dni: document.getElementById("c_dni").value,
+        telefono: document.getElementById("c_telefono").value,
+        direccion: document.getElementById("c_direccion").value
+    };
 
     let url = 'http://localhost:8080/api/clientes';
     let metodo = 'POST';
 
-    // 👉 SI ESTÁ EDITANDO
+    // si está editando → PUT
     if (modoEdicion) {
         url = `http://localhost:8080/api/clientes/${idClienteEditar}`;
         metodo = 'PUT';
@@ -144,28 +167,34 @@ function guardarCliente() {
         },
         body: JSON.stringify(cliente)
     })
-        .then(response => {
-            if (response.ok) {
-                alert(modoEdicion ? "Cliente actualizado" : "Cliente guardado");
+    .then(res => {
+        if (res.ok) {
 
-                limpiarFormulario();
-                cargarClientes();
+            cargarClientes();
+            limpiarFormulario();
 
-                // reset
-                modoEdicion = false;
-                idClienteEditar = null;
+            modoEdicion = false;
+            idClienteEditar = null;
 
-                document.getElementById("tituloModal").textContent = "Registrar Cliente";
+            // reset UI
+            document.getElementById("tituloModal").textContent = "Registrar Cliente";
+            document.getElementById("btn-crearCliente").textContent = "Guardar";
 
-                const modal = bootstrap.Modal.getInstance(document.getElementById('modalRegistroCliente'));
-                modal.hide();
-            } else {
-                alert("Error en la operación");
-            }
-        })
-        .catch(error => console.error("Error:", error));
+            // =============================
+            // 🟢 CAMBIO 1: quitar focus activo (FIX ARIA WARNING)
+            // =============================
+            document.activeElement?.blur();
+
+            // =============================
+            // 🟢 CAMBIO 2: cerrar modal de forma segura
+            // =============================
+            const modalEl = document.getElementById("modalRegistroCliente");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+
+            modal.hide();
+        }
+    });
 }
-
 
 // =============================
 // LIMPIAR FORMULARIO

@@ -63,7 +63,7 @@
         <div class="main-content">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="mb-0">REPORTE DE CLIENTES</h4>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegistroCliente">
+                <button class="btn btn-primary" id="btnNuevo">
                     REGISTRAR
                 </button>
             </div>
@@ -73,38 +73,42 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Cliente</h1>
+                            <h1 class="modal-title fs-5" id="tituloModal">Registrar Cliente</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label for="" class="form-label">Nombre</label>
+                                        <label for="c_nombre" class="form-label">Nombre</label>
                                         <input type="text" class="form-control" id="c_nombre" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="" class="form-label">Apellido</label>
+                                        <label for="c_apellido" class="form-label">Apellido</label>
                                         <input type="text" class="form-control" id="c_apellido" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="" class="form-label">Dni</label>
+                                        <label for="c_dni" class="form-label">Dni</label>
                                         <input type="number" class="form-control" id="c_dni" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="" class="form-label">Teléfono</label>
+                                        <label for="c_telefono" class="form-label">Teléfono</label>
                                         <input type="number" class="form-control" id="c_telefono" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="" class="form-label">Dirección</label>
+                                        <label for="c_direccion" class="form-label">Dirección</label>
                                         <input type="text" class="form-control" id="c_direccion" required>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" id="btn-crearCliente">Guardar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Cerrar
+                            </button>
+                            <button type="button" class="btn btn-primary" id="btn-crearCliente">
+                                Guardar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -129,14 +133,6 @@
             </div>
         </div>
     </main>
-
-    <!--Modal REGISTRO DE CLIENTES-->>
-    <div class="modal fade" id="modalRegistroCliente" tabindex="">
-    </div>
-
-    <!--Modal EDITAR-CLIENTE DE CLIENTES-->>
-    <div class="modal fade" id="modalRegistroCliente" tabindex="">
-    </div>
 
     <script src="js/main.js"></script>
     <script src="js/sidebar.js"></script>

@@ -3,7 +3,7 @@ package com.senati.demo.service;
 import com.senati.demo.entity.Cliente;
 import com.senati.demo.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
-
+import java.util.Optional;
 import java.util.List;
 
 //Importamos la anotacion @service
@@ -30,6 +30,25 @@ public class ClienteService {
     //Elimina el cliente por ID
     public void eliminarCliente(long id){
         clienteRepository.deleteById(id);
-
     };
+
+    public Optional<Cliente> buscarPorId(Long id){
+        return clienteRepository.findById(id);
+    }
+
+
+    public Cliente actualizarCliente(Long id, Cliente datos) {
+
+        Cliente existente = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        existente.setNombre(datos.getNombre());
+        existente.setApellido(datos.getApellido());
+        existente.setDni(datos.getDni());
+        existente.setTelefono(datos.getTelefono());
+        existente.setDireccion(datos.getDireccion());
+
+        return clienteRepository.save(existente);
+    }
+
 }
