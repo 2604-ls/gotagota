@@ -167,33 +167,33 @@ function guardarCliente() {
         },
         body: JSON.stringify(cliente)
     })
-    .then(res => {
-        if (res.ok) {
+        .then(res => {
+            if (res.ok) {
 
-            cargarClientes();
-            limpiarFormulario();
+                cargarClientes();
+                limpiarFormulario();
+ 
+                modoEdicion = false;
+                idClienteEditar = null;
 
-            modoEdicion = false;
-            idClienteEditar = null;
+                // reset UI
+                document.getElementById("tituloModal").textContent = "Registrar Cliente";
+                document.getElementById("btn-crearCliente").textContent = "Guardar";
 
-            // reset UI
-            document.getElementById("tituloModal").textContent = "Registrar Cliente";
-            document.getElementById("btn-crearCliente").textContent = "Guardar";
+                // =============================
+                // 🟢 CAMBIO 1: quitar focus activo (FIX ARIA WARNING)
+                // =============================
+                document.activeElement?.blur();
 
-            // =============================
-            // 🟢 CAMBIO 1: quitar focus activo (FIX ARIA WARNING)
-            // =============================
-            document.activeElement?.blur();
+                // =============================
+                // 🟢 CAMBIO 2: cerrar modal de forma segura
+                // =============================
+                const modalEl = document.getElementById("modalRegistroCliente");
+                const modal = bootstrap.Modal.getInstance(modalEl);
 
-            // =============================
-            // 🟢 CAMBIO 2: cerrar modal de forma segura
-            // =============================
-            const modalEl = document.getElementById("modalRegistroCliente");
-            const modal = bootstrap.Modal.getInstance(modalEl);
-
-            modal.hide();
-        }
-    });
+                modal.hide();
+            }
+        });
 }
 
 // =============================
