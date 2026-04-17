@@ -172,7 +172,7 @@ function guardarCliente() {
 
                 cargarClientes();
                 limpiarFormulario();
- 
+
                 modoEdicion = false;
                 idClienteEditar = null;
 
